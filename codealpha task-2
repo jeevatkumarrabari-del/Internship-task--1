@@ -1,0 +1,113 @@
+# =========================================
+# STOCK PORTFOLIO TRACKER
+# CODEALPHA INTERNSHIP TASK
+# =========================================
+
+# Hardcoded stock prices
+stock_prices = {
+    "AAPL": 180,
+    "TSLA": 250,
+    "GOOG": 140,
+    "MSFT": 320,
+    "AMZN": 150
+}
+
+# Dictionary to store user portfolio
+portfolio = {}
+
+print("===================================")
+print("     STOCK PORTFOLIO TRACKER")
+print("===================================")
+
+# Show available stocks
+print("\nAvailable Stocks and Prices:")
+for stock, price in stock_prices.items():
+    print(f"{stock} = ${price}")
+
+# Number of stocks user wants to add
+num = int(input("\nHow many stocks do you want to add? "))
+
+# Input stock details
+for i in range(num):
+    stock_name = input("\nEnter stock name: ").upper()
+
+    # Check if stock exists
+    if stock_name in stock_prices:
+        quantity = int(input("Enter quantity: "))
+        portfolio[stock_name] = quantity
+    else:
+        print("❌ Stock not available!")
+
+# Calculate total investment
+total_investment = 0
+
+print("\n========== PORTFOLIO SUMMARY ==========")
+
+for stock, quantity in portfolio.items():
+    price = stock_prices[stock]
+    investment = price * quantity
+    total_investment += investment
+
+    print(f"{stock} -> {quantity} shares × ${price} = ${investment}")
+
+print("\n===================================")
+print(f"Total Investment Value = ${total_investment}")
+print("===================================")
+
+# Ask user to save file
+choice = input("\nDo you want to save the report? (yes/no): ").lower()
+
+if choice == "yes":
+
+    file_type = input("Save as txt or csv? ").lower()
+
+    # Save as TXT file
+    if file_type == "txt":
+
+        file = open("portfolio_report.txt", "w")
+
+        file.write("STOCK PORTFOLIO REPORT\n")
+        file.write("=========================\n")
+
+        for stock, quantity in portfolio.items():
+            price = stock_prices[stock]
+            investment = price * quantity
+
+            file.write(
+                f"{stock} -> {quantity} shares × ${price} = ${investment}\n"
+            )
+
+        file.write(f"\nTotal Investment = ${total_investment}")
+
+        file.close()
+
+        print("✅ Report saved as portfolio_report.txt")
+
+    # Save as CSV file
+    elif file_type == "csv":
+
+        file = open("portfolio_report.csv", "w")
+
+        file.write("Stock,Quantity,Price,Investment\n")
+
+        for stock, quantity in portfolio.items():
+            price = stock_prices[stock]
+            investment = price * quantity
+
+            file.write(
+                f"{stock},{quantity},{price},{investment}\n"
+            )
+
+        file.write(f"\nTotal Investment,,,{total_investment}")
+
+        file.close()
+
+        print("✅ Report saved as portfolio_report.csv")
+
+    else:
+        print("❌ Invalid file type!")
+
+else:
+    print("Report not saved.")
+
+print("\nThank you for using Stock Portfolio Tracker!")
